@@ -1,33 +1,51 @@
-# Deploy the Website to Amazon S3
+# Deploy a Website to Amazon S3
 
-This repository contains the files and setup used to deploy a static portfolio website to Amazon S3.
+## Introduction
 
-When you push a change to the `main` branch, GitHub Actions runs a workflow. The workflow copies files from this repository to an S3 bucket. It does not build the website first.
+This project explains how to deploy a static website to Amazon S3 using GitHub Actions.
 
-## How deployment works
+GitHub Actions automatically uploads website files to an S3 bucket whenever new changes are pushed to the `main` branch.
 
-1. You push a change to the `main` branch on GitHub.
-2. GitHub Actions starts the workflow in `.github/workflows/main.yml`.
-3. The workflow gets the repository files and connects to AWS using GitHub secrets.
-4. The AWS CLI copies the files to the S3 bucket named `maniraj-pandit-projec-degine`.
+This process helps automate website deployment without uploading files manually.
 
-The workflow uses the AWS region `ap-southeast-2`.
+## How Deployment Works
 
-## S3 bucket setup
+1. Changes are made to the website files.
+2. The changes are pushed to the `main` branch on GitHub.
+3. GitHub Actions starts the deployment workflow.
+4. The workflow connects to AWS using GitHub Secrets.
+5. AWS CLI uploads the website files to the S3 bucket.
+6. The website files are updated in the S3 bucket.
 
-Create an S3 bucket named `maniraj-pandit-projec-degine` in the `ap-southeast-2` region. The bucket name and region must match the values in the workflow.
+## Amazon S3 Setup
 
-To host a website from the bucket:
+Create an S3 bucket with the following details:
 
-1. Open the bucket in the AWS console.
-2. Open **Properties** and turn on **Static website hosting**.
-3. Set the index document to `index.html`.
+* **Bucket Name:** `maniraj-pandit-projec-degine`
+* **AWS Region:** `ap-southeast-2`
 
-The bucket policy below lets anyone read files in the bucket. Only make the files public if you want anyone to be able to visit the website.
+The bucket name and AWS region must match the values in the GitHub Actions workflow.
 
-## S3 bucket policy
+### Enable Static Website Hosting
 
-Add this policy under the bucket's **Permissions → Bucket policy** page:
+Follow these steps to enable website hosting:
+
+1. Open the AWS Management Console.
+2. Go to Amazon S3.
+3. Open the required S3 bucket.
+4. Select the **Properties** tab.
+5. Find **Static website hosting**.
+6. Enable static website hosting.
+7. Set the index document to `index.html`.
+8. Save the changes.
+
+The `index.html` file is the main page of the website.
+
+## S3 Bucket Policy
+
+A bucket policy controls access to files stored in an S3 bucket.
+
+To allow public access to website files, add the following policy under **Permissions → Bucket policy**.
 
 ```json
 {
@@ -44,50 +62,115 @@ Add this policy under the bucket's **Permissions → Bucket policy** page:
 }
 ```
 
-In simple terms:
+### Explanation of the Policy
 
-- `Effect: "Allow"` means the rule gives permission.
-- `Principal: "*"` means anyone can use this permission.
-- `Action: "s3:GetObject"` lets people read or download files. It does not let them upload or delete files.
-- `Resource` says which files the rule covers. The `/*` means all files inside this bucket.
+* `Effect: Allow` — Allows the specified action.
+* `Principal: "*"` — Applies the permission to everyone.
+* `Action: s3:GetObject` — Allows files to be read or downloaded.
+* `Resource` — Specifies which S3 objects the policy covers.
+* `/*` — Includes all objects inside the bucket.
 
-AWS may block public access by default. For this policy to work, the bucket's **Block Public Access** settings must allow public access. Review AWS's warning before changing these settings.
+**Important:** This policy allows anyone to read the files in the bucket. Public access should only be enabled for files intended to be shared publicly.
 
-## GitHub secrets
+AWS Block Public Access settings may need to be adjusted for this policy to work. Review the security implications before making changes.
 
-The workflow uses secret values to connect to AWS. Add these under your GitHub repository's **Settings → Secrets and variables → Actions**:
+## GitHub Secrets
 
-| Secret name | What to add |
-| --- | --- |
-| `AWS_ACCESS_KEY_ID` | Your AWS access key ID |
-| `AWS_SECRET_ACCESS_KEY_ID` | The matching AWS secret access key |
+GitHub Secrets securely stores sensitive information used by GitHub Actions.
 
-The second secret name may look unusual, but it must match the name used in the workflow. Do not write AWS keys in this README or anywhere in the repository.
+Add the required secrets under:
 
-The AWS user for these keys needs permission to list the bucket and add, change, and delete files in it.
+**GitHub Repository → Settings → Secrets and variables → Actions**
 
-## Workflow file
+| Secret Name                | Description                                                     |
+| -------------------------- | --------------------------------------------------------------- |
+| `AWS_ACCESS_KEY_ID`        | AWS access key ID                                               |
+| `AWS_SECRET_ACCESS_KEY_ID` | AWS secret access key, if this is the name used in the workflow |
 
-The workflow is in `.github/workflows/main.yml`. Here is what its main parts do:
+The secret names must match the names referenced in the workflow file.
 
-- **When it runs:** It runs when you push a change to the `main` branch. A push to another branch does not start this deployment.
-- **Where it runs:** `runs-on: ubuntu-latest` asks GitHub to provide a temporary Linux computer.
-- **Get the repository:** `actions/checkout` downloads the repository files onto that computer.
-- **Connect to AWS:** `aws-actions/configure-aws-credentials` reads the AWS secrets and sets the region to `ap-southeast-2`.
-- **Copy files to S3:** `aws s3 sync . s3://maniraj-pandit-projec-degine --delete` copies files from the repository's top-level folder (`.`) to the bucket.
+**Security Note:** AWS credentials should never be written directly in the workflow file, README, or other public repository files.
 
-The `--delete` option removes files from the bucket if those files are no longer in the repository. This keeps the bucket similar to the repository, but it can also remove files that someone added to the bucket by hand.
+The AWS user must have the required permissions to access the S3 bucket and upload, update, or delete objects.
 
-### Can this use `rsync`?
+## GitHub Actions Workflow
 
-The command in the workflow is `aws s3 sync`. It is an AWS CLI command made to copy files to Amazon S3. It is not the separate Linux `rsync` command.
+The workflow file is located at:
 
-The normal `rsync` command does not copy files directly to an S3 bucket. You can set up extra tools to use rsync-style copying, but that adds extra setup. For this project, `aws s3 sync` is the simpler choice and already does the job.
+`.github/workflows/main.yml`
 
-## Check a deployment
+This file defines the steps required to automate the deployment process.
 
-After pushing to `main`, open the repository's **Actions** tab on GitHub and select the latest workflow run. If it fails, check that:
+### Main Components
 
-- Both GitHub secrets are added with the exact names shown above.
-- The AWS keys have the required bucket permissions.
-- The bucket name and AWS region match the workflow.
+* **Trigger:** Starts the workflow when changes are pushed to the `main` branch.
+* **Runner:** `ubuntu-latest` provides a temporary Linux environment for running the workflow.
+* **Checkout:** `actions/checkout` downloads the repository files.
+* **AWS Credentials:** `aws-actions/configure-aws-credentials` configures AWS access using GitHub Secrets.
+* **AWS Region:** Specifies the AWS region as `ap-southeast-2`.
+* **File Synchronization:** AWS CLI synchronizes the repository files with the S3 bucket.
+
+## AWS S3 Sync Command
+
+The following command is used to synchronize files with the S3 bucket:
+
+```bash
+aws s3 sync . s3://maniraj-pandit-projec-degine --delete
+```
+
+### Command Explanation
+
+* `aws s3 sync` — Synchronizes files between a local directory and an S3 bucket.
+* `.` — Represents the current directory.
+* `s3://maniraj-pandit-projec-degine` — Specifies the destination S3 bucket.
+* `--delete` — Removes destination files that are not present in the source directory.
+
+The `--delete` option helps keep the S3 bucket synchronized with the repository. However, it can also remove files uploaded manually to the bucket.
+
+### AWS S3 Sync vs Linux Rsync
+
+`rsync` is a Linux command used to synchronize files between locations.
+
+`aws s3 sync` is an AWS CLI command designed to synchronize files with Amazon S3.
+
+The standard Linux `rsync` command does not directly support Amazon S3 without additional tools or configuration.
+
+For this project, `aws s3 sync` is the simpler option.
+
+## Check Deployment Status
+
+After pushing changes to the `main` branch, follow these steps:
+
+1. Open the GitHub repository.
+2. Select the **Actions** tab.
+3. Open the latest workflow run.
+4. Check the deployment status.
+
+If the deployment fails, check the following:
+
+* GitHub Secrets are configured correctly.
+* Secret names match the workflow file.
+* AWS credentials are valid.
+* The AWS user has the required S3 permissions.
+* The bucket name is correct.
+* The AWS region is set to `ap-southeast-2`.
+* The source directory contains the required website files.
+
+## Key Learnings
+
+This project covers the following topics:
+
+* Amazon S3 bucket creation and configuration.
+* Static website hosting on Amazon S3.
+* GitHub Actions workflow automation.
+* AWS CLI and S3 file synchronization.
+* GitHub Secrets for managing AWS credentials.
+* Automated deployment using a CI/CD workflow.
+
+## Conclusion
+
+This project demonstrates how GitHub Actions can automate the deployment of a static website to Amazon S3.
+
+It provides practical experience with AWS, GitHub Actions, CI/CD automation, and cloud storage.
+
+The project can be extended with additional deployment steps and improvements as more DevOps concepts are learned.
