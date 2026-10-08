@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Maniraj Pandit is a product designer creating thoughtful digital experiences."
+    />
+    <meta name="theme-color" content="#0b1749" />
+    <title>Maniraj Pandit — Product Designer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              ink: "#0b1749",
+              clay: "#2e0a06",
+              cream: "#f7f5ef",
+              lime: "#d7f36a",
+            },
+            fontFamily: {
+              sans: ["DM Sans", "sans-serif"],
+              display: ["Manrope", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body class="bg-cream font-sans text-ink antialiased">
+    <header class="site-header">
+      <nav
+        class="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 lg:px-10"
+        aria-label="Main navigation"
+      >
+        <a class="wordmark" href="#home" aria-label="Maniraj Pandit home">am<span>.</span></a>
+        <button
+          class="menu-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="site-menu"
+          aria-label="Open navigation menu"
+        >
+          <span></span><span></span>
+        </button>
+        <div class="nav-links" id="site-menu">
+          <a href="#about">About</a>
+          <a href="#work">Selected work</a>
+          <a href="#contact">Contact</a>
+          <a class="availability" href="#contact"><span></span> Available for projects</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero mx-auto max-w-7xl px-6 lg:px-10" id="home">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="eyebrow-line"></span> Independent designer · Brooklyn, NY</p>
+          <h1>Making digital<br />feel a little more <span>human.</span></h1>
+          <p class="hero-intro">
+            Hey, I’m Maniraj — a product designer partnering with good people to turn
+            big ideas into clear, thoughtful experiences.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-dark" href="#work">Explore my work <span aria-hidden="true">↘</span></a>
+            <a class="text-link" href="#contact">Let’s talk <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+        <div class="hero-art" aria-label="Abstract portrait illustration" role="img">
+          <div class="art-orbit orbit-one"></div>
+          <div class="art-orbit orbit-two"></div>
+          <div class="sun"></div>
+          <div class="portrait">
+            <div class="portrait-hair"></div>
+            <div class="portrait-face">
+              <span class="eye eye-left"></span><span class="eye eye-right"></span>
+              <span class="nose"></span><span class="smile"></span>
+            </div>
+            <div class="portrait-neck"></div>
+            <div class="portrait-shirt"></div>
+          </div>
+          <div class="art-note"><span>✳</span> Thoughtful by design</div>
+          <div class="art-index">01 — 04</div>
+        </div>
+        <a class="scroll-cue" href="#about"><span></span> Scroll to explore</a>
+      </section>
+
+      <section class="about-section" id="about">
+        <div class="mx-auto grid max-w-7xl gap-12 px-6 py-24 lg:grid-cols-[0.8fr_1.2fr] lg:px-10 lg:py-32">
+          <div>
+            <p class="eyebrow"><span class="eyebrow-line"></span> A little about me</p>
+            <h2 class="section-heading">Curiosity is<br />part of the process.</h2>
+          </div>
+          <div class="about-copy">
+            <p>
+              I’m a designer who likes asking better questions. For the last 8 years,
+              I’ve helped early-stage teams and established brands make useful,
+              approachable products — from the first sketch to the final detail.
+            </p>
+            <p>
+              My approach is equal parts clear thinking and playful making. I believe
+              the best work happens when we stay curious, keep things collaborative,
+              and remember there are real people on the other side of every screen.
+            </p>
+            <div class="skill-list">
+              <span>Product strategy</span><span>UX / UI design</span><span>Prototyping</span><span>Art direction</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="work-section mx-auto max-w-7xl px-6 py-24 lg:px-10 lg:py-32" id="work">
+        <div class="section-top">
+          <div>
+            <p class="eyebrow"><span class="eyebrow-line"></span> A few good projects</p>
+            <h2 class="section-heading">Selected work<span class="period">.</span></h2>
+          </div>
+          <p class="section-aside">A mix of thoughtful ideas<br />made real with great teams.</p>
+        </div>
+        <div class="project-grid">
+          <a class="project-card project-card-wide" href="#contact" aria-label="Discuss the Goodside project">
+            <div class="project-visual goodside">
+              <div class="goodside-window">
+                <div class="window-dots"><i></i><i></i><i></i></div>
+                <span class="goodside-logo">goodside<span>®</span></span>
+                <p>Make room<br />for <em>better</em>.</p>
+                <div class="goodside-orb"></div>
+                <div class="window-foot">A little more good, every day. <span>↗</span></div>
+              </div>
+              <span class="visual-caption">01 / BRAND & DIGITAL</span>
+            </div>
+            <div class="project-meta">
+              <div><h3>Goodside</h3><p>A brighter kind of everyday wellness.</p></div>
+              <span class="project-arrow" aria-hidden="true">↗</span>
+            </div>
+          </a>
+          <a class="project-card" href="#contact" aria-label="Discuss the Common Ground project">
+            <div class="project-visual common">
+              <div class="common-phone">
+                <div class="phone-camera"></div>
+                <span class="common-logo">common<br />ground.</span>
+                <p>Your neighborhood,<br /><strong>closer.</strong></p>
+                <div class="map-art">
+                  <span class="map-path"></span><i class="map-pin">•</i><i class="map-pin second">•</i>
+                </div>
+                <span class="phone-nav">⌂　♡　◉　◎</span>
+              </div>
+              <span class="visual-caption">02 / PRODUCT DESIGN</span>
+            </div>
+            <div class="project-meta">
+              <div><h3>Common Ground</h3><p>Bringing the neighborhood closer.</p></div>
+              <span class="project-arrow" aria-hidden="true">↗</span>
+            </div>
+          </a>
+          <a class="project-card" href="#contact" aria-label="Discuss the Form and Field project">
+            <div class="project-visual formfield">
+              <span class="visual-caption">03 / E-COMMERCE</span>
+              <div class="form-label">FORM <span>&</span> FIELD</div>
+              <div class="form-objects">
+                <div class="vase vase-tall"></div><div class="vase vase-short"></div>
+                <div class="vase vase-round"></div>
+              </div>
+              <span class="form-copy">Objects for a slower home.</span>
+            </div>
+            <div class="project-meta">
+              <div><h3>Form & Field</h3><p>Considered objects, considered online.</p></div>
+              <span class="project-arrow" aria-hidden="true">↗</span>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <section class="contact-section" id="contact">
+        <div class="mx-auto max-w-7xl px-6 py-24 lg:px-10 lg:py-28">
+          <p class="eyebrow"><span class="eyebrow-line"></span> Have a good one in mind?</p>
+          <div class="contact-row">
+            <h2>Let’s make<br />something <span>matter.</span></h2>
+            <div class="contact-details">
+              <p>I’m always up for a thoughtful challenge and a good conversation.</p>
+              <a class="contact-email" href="mailto:hello@ManirajPandit.design">hello@ManirajPandit.design <span>↗</span></a>
+            </div>
+          </div>
+          <footer class="footer">
+            <a class="wordmark" href="#home" aria-label="Back to top">am<span>.</span></a>
+            <span>© <span id="year">2026</span> Maniraj Pandit. Made with intention.</span>
+            <div class="social-links">
+              <a href="https://www.linkedin.com/" target="_blank" rel="noreferrer">LinkedIn ↗</a>
+              <a href="https://www.instagram.com/" target="_blank" rel="noreferrer">Instagram ↗</a>
+            </div>
+          </footer>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
